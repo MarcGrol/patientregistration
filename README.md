@@ -20,3 +20,11 @@ You can make use of the following building blocks 👇
 - EmailSender - interface + implementation
 - Initial RegistrationService - interface + unit test
 - protobuf contract with the initial start patient registration request 
+
+
+###Registration flow
+![alt text](./docs/registration-flow.png)
+
+###Sequence Diagram
+
+![alt text](./docs/sequence-diagram.png)
