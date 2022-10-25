@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package regprotobuf;
+
+option go_package = "github.com/MarcGrol/go-training/examples/registrationServiceGrpc/regprotobuf";
+
+service RegistrationService {
+    rpc RegisterPatient (RegisterPatientRequest) returns (RegisterPatientResponse) {}
+    rpc CompletePatientRegistration (CompletePatientRegistrationRequest) returns (CompletePatientRegistrationResponse) {}
+}
+
+message RegisterPatientRequest {
+    Patient patient = 1;
+}
+
+message RegisterPatientResponse {
+    string patientUid = 1;
+}
+
+message CompletePatientRegistrationRequest {
+    string patientUid = 1;
+    RegistrationCredentials credentials = 2;
+}
+
+message RegistrationCredentials {
+    int32 pincode = 1;
+}
+
+message CompletePatientRegistrationResponse {
+    RegistrationStatus status = 1;
+}
+
+message Patient {
+    string BSN = 1;
+    string fullName = 2;
+    Address address = 3;
+    Contact contact = 4;
+    RegistrationStatus status = 5;
+}
+
+message Address {
+    string postalCode = 1;
+    int64 houseNumber = 2;
+}
+
+message Contact {
+    string emailAddress = 1;
+}
+
+enum RegistrationStatus {
+    REGISTRATION_UNKNOWN = 0;
+    REGISTRATION_PENDING = 1;
+    REGISTRATION_CONFIRMED = 2;
+    REGISTRATION_BLOCKED = 3;
+}
