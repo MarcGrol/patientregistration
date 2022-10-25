@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/MarcGrol/patientregistration/lib/api/emailsender"
+	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
