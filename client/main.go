@@ -37,12 +37,6 @@ func main() {
 			log.Fatal(err)
 		}
 		log.Printf("Registration completed for patient %s", cliArgs.patientUid)
-	} else if cliArgs.command == "bruteforce-registration" {
-		err = bruteForceRegistration(ctx, client, cliArgs.patientUid)
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("Bruteforce completed for patient %s", cliArgs.patientUid)
 	} else {
 		log.Fatalf("Unrecognized command %s", cliArgs.command)
 	}
@@ -69,36 +63,8 @@ func startRegistration(ctx context.Context, client regprotobuf.RegistrationServi
 }
 
 func completeRegistration(ctx context.Context, client regprotobuf.RegistrationServiceClient, patientUid string, pinCode int) error {
-	_, err := client.CompletePatientRegistration(ctx, &regprotobuf.CompletePatientRegistrationRequest{
-		PatientUid: patientUid,
-		Credentials: &regprotobuf.RegistrationCredentials{
-			Pincode: int32(pinCode),
-		},
-	})
-	if err != nil {
-		return fmt.Errorf("Error completing patient registration: %s", err)
-	}
-
+	// TODO
 	return nil
-}
-
-func bruteForceRegistration(ctx context.Context, client regprotobuf.RegistrationServiceClient, patientUid string) error {
-	for i := 1; i <= 10; i++ {
-		log.Printf("Start guessing pincode %d", i)
-		_, err := client.CompletePatientRegistration(ctx, &regprotobuf.CompletePatientRegistrationRequest{
-			PatientUid: patientUid,
-			Credentials: &regprotobuf.RegistrationCredentials{
-				Pincode: int32(i),
-			},
-		})
-		if err != nil {
-			log.Printf("Error completing patient registration: %s", err)
-		} else {
-			log.Printf("Pincode successfully guessed")
-			return nil
-		}
-	}
-	return fmt.Errorf("Error guessing pin-code")
 }
 
 type args struct {

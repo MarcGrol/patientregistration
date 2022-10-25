@@ -19,7 +19,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RegistrationServiceClient interface {
 	RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error)
-	CompletePatientRegistration(ctx context.Context, in *CompletePatientRegistrationRequest, opts ...grpc.CallOption) (*CompletePatientRegistrationResponse, error)
 }
 
 type registrationServiceClient struct {
@@ -39,21 +38,11 @@ func (c *registrationServiceClient) RegisterPatient(ctx context.Context, in *Reg
 	return out, nil
 }
 
-func (c *registrationServiceClient) CompletePatientRegistration(ctx context.Context, in *CompletePatientRegistrationRequest, opts ...grpc.CallOption) (*CompletePatientRegistrationResponse, error) {
-	out := new(CompletePatientRegistrationResponse)
-	err := c.cc.Invoke(ctx, "/regprotobuf.RegistrationService/CompletePatientRegistration", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // RegistrationServiceServer is the server API for RegistrationService service.
 // All implementations must embed UnimplementedRegistrationServiceServer
 // for forward compatibility
 type RegistrationServiceServer interface {
 	RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error)
-	CompletePatientRegistration(context.Context, *CompletePatientRegistrationRequest) (*CompletePatientRegistrationResponse, error)
 	mustEmbedUnimplementedRegistrationServiceServer()
 }
 
@@ -63,9 +52,6 @@ type UnimplementedRegistrationServiceServer struct {
 
 func (UnimplementedRegistrationServiceServer) RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterPatient not implemented")
-}
-func (UnimplementedRegistrationServiceServer) CompletePatientRegistration(context.Context, *CompletePatientRegistrationRequest) (*CompletePatientRegistrationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CompletePatientRegistration not implemented")
 }
 func (UnimplementedRegistrationServiceServer) mustEmbedUnimplementedRegistrationServiceServer() {}
 
@@ -98,24 +84,6 @@ func _RegistrationService_RegisterPatient_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RegistrationService_CompletePatientRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CompletePatientRegistrationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RegistrationServiceServer).CompletePatientRegistration(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/regprotobuf.RegistrationService/CompletePatientRegistration",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RegistrationServiceServer).CompletePatientRegistration(ctx, req.(*CompletePatientRegistrationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // RegistrationService_ServiceDesc is the grpc.ServiceDesc for RegistrationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -126,10 +94,6 @@ var RegistrationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterPatient",
 			Handler:    _RegistrationService_RegisterPatient_Handler,
-		},
-		{
-			MethodName: "CompletePatientRegistration",
-			Handler:    _RegistrationService_CompletePatientRegistration_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

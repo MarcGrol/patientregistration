@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package regprotobuf;
 
-option go_package = "github.com/MarcGrol/go-training/examples/registrationServiceGrpc/regprotobuf";
+option go_package = "github.com/MarcGrol/patientregistration/regprotobuf";
 
 service RegistrationService {
     rpc RegisterPatient (RegisterPatientRequest) returns (RegisterPatientResponse) {}
-    rpc CompletePatientRegistration (CompletePatientRegistrationRequest) returns (CompletePatientRegistrationResponse) {}
+    // TODO add CompletePatientRegistration
 }
 
 message RegisterPatientRequest {
@@ -15,19 +15,6 @@ message RegisterPatientRequest {
 
 message RegisterPatientResponse {
     string patientUid = 1;
-}
-
-message CompletePatientRegistrationRequest {
-    string patientUid = 1;
-    RegistrationCredentials credentials = 2;
-}
-
-message RegistrationCredentials {
-    int32 pincode = 1;
-}
-
-message CompletePatientRegistrationResponse {
-    RegistrationStatus status = 1;
 }
 
 message Patient {
