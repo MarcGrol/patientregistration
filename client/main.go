@@ -4,10 +4,12 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/MarcGrol/patientregistration/regprotobuf"
 	"log"
 	"os"
 	"time"
+	
+	"github.com/MarcGrol/patientregistration/regprotobuf"
+
 )
 
 func main() {
